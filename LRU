@@ -1,0 +1,30 @@
+# LRU Page Replacement Algorithm
+
+pages = list(map(int, input("Enter page reference string: ").split()))
+frames = int(input("Enter number of frames: "))
+
+memory = []
+page_faults = 0
+
+for page in pages:
+    if page not in memory:
+        page_faults += 1
+
+        if len(memory) < frames:
+            memory.append(page)
+        else:
+            lru = pages[:pages.index(page)].index(memory[0])
+
+            least_used = memory[0]
+
+            for m in memory:
+                if pages[:pages.index(page)].index(m) < lru:
+                    lru = pages[:pages.index(page)].index(m)
+                    least_used = m
+
+            memory.remove(least_used)
+            memory.append(page)
+
+    print(f"{page} -> {memory}")
+
+print("\nTotal Page Faults =", page_faults)
