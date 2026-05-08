@@ -1,0 +1,74 @@
+# Banker's Algorithm for Deadlock Avoidance
+
+# Number of processes
+n = int(input("Enter number of processes: "))
+
+# Number of resource types
+m = int(input("Enter number of resource types: "))
+
+# Allocation Matrix
+allocation = []
+print("\nEnter Allocation Matrix:")
+for i in range(n):
+    row = list(map(int, input(f"Process P{i}: ").split()))
+    allocation.append(row)
+
+# Maximum Matrix
+maximum = []
+print("\nEnter Maximum Matrix:")
+for i in range(n):
+    row = list(map(int, input(f"Process P{i}: ").split()))
+    maximum.append(row)
+
+# Available Resources
+available = list(map(int, input("\nEnter Available Resources: ").split()))
+
+# Calculate Need Matrix
+need = []
+for i in range(n):
+    row = []
+    for j in range(m):
+        row.append(maximum[i][j] - allocation[i][j])
+    need.append(row)
+
+# Display Need Matrix
+print("\nNeed Matrix:")
+for i in range(n):
+    print(f"P{i}: {need[i]}")
+
+finish = [False] * n
+safe_sequence = []
+work = available[:]
+
+count = 0
+
+while count < n:
+    found = False
+
+    for i in range(n):
+        if not finish[i]:
+            possible = True
+
+            for j in range(m):
+                if need[i][j] > work[j]:
+                    possible = False
+                    break
+
+            if possible:
+                for j in range(m):
+                    work[j] += allocation[i][j]
+
+                safe_sequence.append(f"P{i}")
+                finish[i] = True
+                found = True
+                count += 1
+
+    if not found:
+        break
+
+# Check Safe State
+if count == n:
+    print("\nSystem is in SAFE state")
+    print("Safe Sequence:", " -> ".join(safe_sequence))
+else:
+    print("\nSystem is NOT in safe state")
