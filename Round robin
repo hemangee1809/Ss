@@ -1,0 +1,54 @@
+# Round Robin Scheduling Algorithm
+
+n = int(input("Enter number of processes: "))
+
+burst_time = []
+remaining_bt = []
+processes = []
+
+for i in range(n):
+    bt = int(input(f"Enter Burst Time for Process P{i+1}: "))
+    burst_time.append(bt)
+    remaining_bt.append(bt)
+    processes.append(f"P{i+1}")
+
+time_quantum = int(input("Enter Time Quantum: "))
+
+waiting_time = [0] * n
+turnaround_time = [0] * n
+
+time = 0
+
+while True:
+    done = True
+
+    for i in range(n):
+        if remaining_bt[i] > 0:
+            done = False
+
+            if remaining_bt[i] > time_quantum:
+                time += time_quantum
+                remaining_bt[i] -= time_quantum
+            else:
+                time += remaining_bt[i]
+                waiting_time[i] = time - burst_time[i]
+                remaining_bt[i] = 0
+
+    if done:
+        break
+
+# Calculate Turnaround Time
+for i in range(n):
+    turnaround_time[i] = burst_time[i] + waiting_time[i]
+
+# Display Results
+print("\nProcess\tBurst Time\tWaiting Time\tTurnaround Time")
+
+for i in range(n):
+    print(f"{processes[i]}\t{burst_time[i]}\t\t{waiting_time[i]}\t\t{turnaround_time[i]}")
+
+avg_wt = sum(waiting_time) / n
+avg_tat = sum(turnaround_time) / n
+
+print("\nAverage Waiting Time =", avg_wt)
+print("Average Turnaround Time =", avg_tat)
