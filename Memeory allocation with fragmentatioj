@@ -1,0 +1,46 @@
+# Memory Allocation Technique with Fragmentation
+# First Fit Allocation
+
+# Input number of memory blocks
+nb = int(input("Enter number of memory blocks: "))
+
+blocks = []
+for i in range(nb):
+    size = int(input(f"Enter size of Block {i+1}: "))
+    blocks.append(size)
+
+# Input number of processes
+np = int(input("\nEnter number of processes: "))
+
+processes = []
+for i in range(np):
+    size = int(input(f"Enter memory required for Process {i+1}: "))
+    processes.append(size)
+
+allocation = [-1] * np
+fragmentation = [0] * np
+
+# First Fit Allocation
+for i in range(np):
+    for j in range(nb):
+        if blocks[j] >= processes[i]:
+            allocation[i] = j
+            fragmentation[i] = blocks[j] - processes[i]
+
+            # Reduce block size after allocation
+            blocks[j] = blocks[j] - processes[i]
+            break
+
+# Display Result
+print("\nProcess No.\tProcess Size\tBlock No.\tFragmentation")
+
+for i in range(np):
+    if allocation[i] != -1:
+        print(f"{i+1}\t\t{processes[i]}\t\t{allocation[i]+1}\t\t{fragmentation[i]}")
+    else:
+        print(f"{i+1}\t\t{processes[i]}\t\tNot Allocated")
+
+# Total Fragmentation
+total_frag = sum(fragmentation)
+
+print("\nTotal Fragmentation =", total_frag)
