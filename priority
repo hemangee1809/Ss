@@ -1,0 +1,46 @@
+# Priority Scheduling Algorithm
+
+n = int(input("Enter number of processes: "))
+
+processes = []
+burst_time = []
+priority = []
+
+for i in range(n):
+    bt = int(input(f"Enter Burst Time for Process P{i+1}: "))
+    pr = int(input(f"Enter Priority for Process P{i+1}: "))
+
+    processes.append(f"P{i+1}")
+    burst_time.append(bt)
+    priority.append(pr)
+
+# Sorting according to priority
+combined = list(zip(processes, burst_time, priority))
+combined.sort(key=lambda x: x[2])
+
+processes = [x[0] for x in combined]
+burst_time = [x[1] for x in combined]
+priority = [x[2] for x in combined]
+
+waiting_time = [0] * n
+turnaround_time = [0] * n
+
+# Calculate Waiting Time
+for i in range(1, n):
+    waiting_time[i] = waiting_time[i-1] + burst_time[i-1]
+
+# Calculate Turnaround Time
+for i in range(n):
+    turnaround_time[i] = waiting_time[i] + burst_time[i]
+
+# Display Results
+print("\nProcess\tBurst Time\tPriority\tWaiting Time\tTurnaround Time")
+
+for i in range(n):
+    print(f"{processes[i]}\t{burst_time[i]}\t\t{priority[i]}\t\t{waiting_time[i]}\t\t{turnaround_time[i]}")
+
+avg_wt = sum(waiting_time) / n
+avg_tat = sum(turnaround_time) / n
+
+print("\nAverage Waiting Time =", avg_wt)
+print("Average Turnaround Time =", avg_tat)
