@@ -1,0 +1,23 @@
+# Sequential File Allocation Technique
+
+files = int(input("Enter number of files: "))
+
+start = []
+length = []
+
+for i in range(files):
+    s = int(input(f"Enter starting block of file {i+1}: "))
+    l = int(input(f"Enter length of file {i+1}: "))
+
+    start.append(s)
+    length.append(l)
+
+print("\nFile\tStart Block\tLength\tAllocated Blocks")
+
+for i in range(files):
+    print(f"{i+1}\t{start[i]}\t\t{length[i]}\t", end=" ")
+
+    for j in range(start[i], start[i] + length[i]):
+        print(j, end=" ")
+
+    print()
