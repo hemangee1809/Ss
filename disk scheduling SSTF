@@ -1,0 +1,30 @@
+# SSTF Disk Scheduling Algorithm
+
+requests = list(map(int, input("Enter disk requests: ").split()))
+head = int(input("Enter initial head position: "))
+
+seek_count = 0
+visited = [False] * len(requests)
+current = head
+
+print("\nSeek Sequence:")
+
+for _ in range(len(requests)):
+    min_dist = 9999
+    index = -1
+
+    for i in range(len(requests)):
+        if not visited[i]:
+            distance = abs(current - requests[i])
+
+            if distance < min_dist:
+                min_dist = distance
+                index = i
+
+    visited[index] = True
+    seek_count += min_dist
+    current = requests[index]
+
+    print(current, end=" ")
+
+print("\n\nTotal Seek Operations =", seek_count)
