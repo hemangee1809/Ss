@@ -1,0 +1,29 @@
+# Linked File Allocation Technique
+
+files = int(input("Enter number of files: "))
+
+file_names = []
+start_blocks = []
+lengths = []
+
+for i in range(files):
+    name = input(f"Enter file name {i+1}: ")
+    start = int(input("Enter starting block: "))
+    length = int(input("Enter number of blocks: "))
+
+    file_names.append(name)
+    start_blocks.append(start)
+    lengths.append(length)
+
+print("\nFile\tStart Block\tLinked Blocks")
+
+for i in range(files):
+    print(f"{file_names[i]}\t{start_blocks[i]}\t\t", end=" ")
+
+    block = start_blocks[i]
+
+    for j in range(lengths[i]):
+        print(block, end=" -> ")
+        block += 1
+
+    print("NULL")
