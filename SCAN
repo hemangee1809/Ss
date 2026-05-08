@@ -1,0 +1,42 @@
+# SCAN Disk Scheduling Algorithm
+
+requests = list(map(int, input("Enter disk requests: ").split()))
+head = int(input("Enter initial head position: "))
+disk_size = int(input("Enter disk size: "))
+
+left = []
+right = []
+
+seek_count = 0
+
+# Divide requests
+for req in requests:
+    if req < head:
+        left.append(req)
+    else:
+        right.append(req)
+
+left.sort()
+right.sort()
+
+current = head
+
+print("\nSeek Sequence:")
+
+# Move right first
+for req in right:
+    print(req, end=" ")
+    seek_count += abs(current - req)
+    current = req
+
+# Go to end
+seek_count += abs(current - (disk_size - 1))
+current = disk_size - 1
+
+# Reverse direction
+for req in reversed(left):
+    print(req, end=" ")
+    seek_count += abs(current - req)
+    current = req
+
+print("\n\nTotal Seek Operations =", seek_count)
