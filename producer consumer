@@ -1,0 +1,56 @@
+# Producer Consumer Problem using Semaphore
+
+import threading
+import time
+import random
+
+# Buffer Size
+BUFFER_SIZE = 5
+buffer = []
+
+# Semaphores
+empty = threading.Semaphore(BUFFER_SIZE)
+full = threading.Semaphore(0)
+mutex = threading.Semaphore(1)
+
+# Producer Function
+def producer():
+    item = 1
+    while True:
+        empty.acquire()
+        mutex.acquire()
+
+        buffer.append(item)
+        print(f"Producer produced item {item}")
+        item += 1
+
+        mutex.release()
+        full.release()
+
+        time.sleep(random.randint(1, 2))
+
+# Consumer Function
+def consumer():
+    while True:
+        full.acquire()
+        mutex.acquire()
+
+        item = buffer.pop(0)
+        print(f"Consumer consumed item {item}")
+
+        mutex.release()
+        empty.release()
+
+        time.sleep(random.randint(1, 2))
+
+# Creating Threads
+p = threading.Thread(target=producer)
+c = threading.Thread(target=consumer)
+
+# Starting Threads
+p.start()
+c.start()
+
+# Keep Main Thread Running
+p.join()
+c.join()
