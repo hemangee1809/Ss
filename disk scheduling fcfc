@@ -1,0 +1,16 @@
+# FCFS Disk Scheduling Algorithm
+
+requests = list(map(int, input("Enter disk requests: ").split()))
+head = int(input("Enter initial head position: "))
+
+seek_count = 0
+current = head
+
+print("\nSeek Sequence:")
+
+for req in requests:
+    print(req, end=" ")
+    seek_count += abs(req - current)
+    current = req
+
+print("\n\nTotal Seek Operations =", seek_count)
