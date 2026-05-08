@@ -1,0 +1,30 @@
+# Indexed File Allocation Technique
+
+files = int(input("Enter number of files: "))
+
+index_block = []
+blocks = []
+
+for i in range(files):
+    idx = int(input(f"Enter index block for file {i+1}: "))
+    n = int(input("Enter number of blocks allocated: "))
+
+    temp = []
+
+    print("Enter blocks: ")
+    for j in range(n):
+        b = int(input())
+        temp.append(b)
+
+    index_block.append(idx)
+    blocks.append(temp)
+
+print("\nFile\tIndex Block\tAllocated Blocks")
+
+for i in range(files):
+    print(f"{i+1}\t{index_block[i]}\t\t", end=" ")
+
+    for b in blocks[i]:
+        print(b, end=" ")
+
+    print()
