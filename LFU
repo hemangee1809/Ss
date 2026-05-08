@@ -1,0 +1,31 @@
+# LFU Page Replacement Algorithm
+
+pages = list(map(int, input("Enter page reference string: ").split()))
+frames = int(input("Enter number of frames: "))
+
+memory = []
+frequency = {}
+page_faults = 0
+
+for page in pages:
+
+    if page not in memory:
+        page_faults += 1
+
+        if len(memory) < frames:
+            memory.append(page)
+        else:
+            # Find least frequently used page
+            lfu_page = min(memory, key=lambda x: frequency[x])
+            memory.remove(lfu_page)
+            memory.append(page)
+
+    # Update frequency count
+    if page in frequency:
+        frequency[page] += 1
+    else:
+        frequency[page] = 1
+
+    print(f"{page} -> {memory}")
+
+print("\nTotal Page Faults =", page_faults)
